@@ -5,7 +5,7 @@ import path from 'path';
 
 export const get: RequestHandler<{ name: string }> = async ({ params, url }) => {
     const model = params.name
-    if (!model || !getRecordedModels().includes(model)) return {
+    if (!model) return {
         status: 400
     }
     const images = getThumbnails(model)

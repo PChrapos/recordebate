@@ -63,9 +63,9 @@ impl PostProcess {
                 let input_file = entry_path.to_str().unwrap().to_string();
                 let file_name = entry.file_name();
                 let file_name = file_name.to_str().unwrap();
-                if file_name.ends_with(".mp4") && entry.path().with_extension(".png").exists() {
+                if file_name.ends_with(".mp4") && !entry_path.with_extension("png").exists() {
                     println!("creating thumbnail for {input_file}");
-                    create_thumbnail(entry.path().to_str().unwrap()).ok();
+                    create_thumbnail(entry_path.to_str().unwrap()).ok();
                 }
                 if !file_name.ends_with(".ts") {
                     continue;
