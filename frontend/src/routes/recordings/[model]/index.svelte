@@ -17,6 +17,7 @@
 
 	onMount(async () => {
 		const res = await fetch(`/api/model/${$page.params.model}/videos`);
+		if (res.status != 200) return;
 		recordings = (await res.json())['videos'];
 	});
 	let selectedVideo: string | undefined = undefined;

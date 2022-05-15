@@ -1,4 +1,4 @@
-import { getRecordedModels, getThumbnails } from "$lib/models";
+import { getThumbnails } from "$lib/models";
 import type { RequestHandler } from "@sveltejs/kit";
 import { readFileSync } from 'fs';
 import path from 'path';
