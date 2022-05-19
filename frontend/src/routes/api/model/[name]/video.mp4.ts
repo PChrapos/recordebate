@@ -1,6 +1,6 @@
 import { getRecordedModels } from "$lib/models";
 import type { RequestEvent } from "@sveltejs/kit/types/private";
-import { openSync, readdirSync, readSync, statSync } from 'fs';
+import { openSync, readdirSync, readSync, statSync, closeSync } from 'fs';
 import path from 'path';
 
 const CHUNK_SIZE = 1024 * 1024
@@ -37,6 +37,7 @@ export const get = async ({ request, params, url }: RequestEvent) => {
     const buffer = Buffer.alloc(sendSize)
     const fd = openSync(videoFile, 'r')
     const nread = readSync(fd, buffer, { position: rangeStart, length: sendSize })
+    closeSync(fd)
     return {
         status: 206,
         headers,
