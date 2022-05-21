@@ -10,15 +10,16 @@
 	});
 </script>
 
-<div>
+<div class="container">
 	{#each recordedModels as model}
 		<CamInfo {model} />
 	{/each}
 </div>
 
 <style>
-	div {
+	.container {
 		display: flex;
 		flex-wrap: wrap;
+		overflow: auto;
 	}
 </style>

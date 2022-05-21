@@ -36,7 +36,7 @@
 	};
 </script>
 
-<div>
+<div class="container">
 	{#each trackedModels as model}
 		<CamInfo {model} onDelete={deleteModel} />
 	{/each}
@@ -44,7 +44,8 @@
 </div>
 
 <style>
-	div {
+	.container {
+		overflow: auto;
 		flex-wrap: wrap;
 		display: flex;
 		align-items: flex-start;
