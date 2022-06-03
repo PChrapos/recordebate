@@ -21,13 +21,15 @@
 <style>
 	.container {
 		margin: 10px;
-		background-color: var(--primary-color);
+		background-color: var(--secondary-color);
 		border-radius: 20px;
 		padding: 5px;
 		width: 100%;
 		font-size: large;
 		display: flex;
 		align-items: center;
+		color: var(--tertiary-color);
+		box-shadow: 0 0 10px var(--secondary-color2);
 	}
 	.label {
 		margin-left: 5px;
@@ -38,6 +40,16 @@
 		border-radius: 10px;
 		height: 20px;
 		padding-left: 5px;
+		font-weight: 600;
+		background-color: var(--primary-color2);
+		color: var(--tertiary-color2);
+		border: 0;
+		outline-color: var(--tertiary-color2);
+		box-shadow: 0 0 3px var(--tertiary-color);
+	}
+	input:focus {
+		outline: none;
+		box-shadow: 0 0 5px var(--tertiary-color2);
 	}
 	.add {
 		width: 30px;
@@ -54,7 +66,7 @@
 		display: block;
 	}
 	.add:hover {
-		color: rgb(27, 158, 27);
+		color: var(--tertiary-color2);
 	}
 	@media (min-width: 640px) {
 		.container {

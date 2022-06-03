@@ -51,10 +51,12 @@
 <style>
 	.container {
 		margin: 10px;
-		background-color: var(--primary-color);
+		background-color: var(--secondary-color);
+		color: var(--tertiary-color);
 		border-radius: 20px;
 		padding: 5px;
 		width: 100%;
+		box-shadow: 0 0 10px var(--secondary-color2);
 	}
 	img {
 		width: 100%;
@@ -84,7 +86,7 @@
 	.modelDelete {
 		flex: 1;
 		margin-right: 2px;
-		color: var(--secondary-color);
+		color: var(--tertiary-color);
 		width: 9px;
 		background: none;
 		border: none;
@@ -94,7 +96,7 @@
 		outline: inherit;
 	}
 	.modelDelete:hover {
-		color: var(--tertiary-color);
+		color: var(--tertiary-color2);
 	}
 	@media (min-width: 640px) {
 		.container {

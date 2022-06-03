@@ -37,10 +37,11 @@
 
 <style>
 	nav {
-		background-color: var(--primary-color);
-		color: white;
+		background-color: var(--secondary-color);
+		color: var(--primary-color);
 		display: block;
 		display: flex;
 		align-items: center;
+		box-shadow: 3px 3px 7px var(--secondary-color2);
 	}
 </style>

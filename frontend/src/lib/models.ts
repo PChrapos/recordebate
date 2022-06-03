@@ -1,5 +1,6 @@
 import { readdirSync, lstatSync, existsSync, unlinkSync, renameSync } from 'fs'
 import path from 'path'
+import { getVideoDurationInSeconds } from 'get-video-duration'
 
 const dataFolder = '../data'
 export const getRecordedModels = () => {
@@ -38,5 +39,8 @@ export const renameVideo = (model: string, video: string, newName: string) => {
 export const getThumbnails = (model: string) => {
     if (!getRecordedModels().includes(model)) return []
     return readdirSync(path.join(dataFolder, model)).filter(video => lstatSync(path.join(dataFolder, model, video)).isFile() && video.endsWith('.png'))
+}
 
+export const getVideoDuration = async (model: string, video: string) => {
+    return await getVideoDurationInSeconds(path.join(dataFolder, model, video))
 }

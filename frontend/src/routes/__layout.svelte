@@ -1,16 +1,17 @@
 <script>
 	import NavBar from '$lib/components/NavBar.svelte';
 
-	let primaryColor = 'rgb(65, 65, 65)';
-	let secondaryColor = 'white';
-	let tertiaryColor = 'rgb(255, 25, 25)';
-	let textColor = 'white';
-	let backgroundColor = 'grey';
+	let primaryColor = '#202124';
+	let primaryColor2 = '#1e1e1e';
+	let secondaryColor = '#171717';
+	let secondaryColor2 = 'black';
+	let tertiaryColor = '#7A0BC0';
+	let tertiaryColor2 = '#FA58B6';
 </script>
 
 <div
 	class="container"
-	style="--p-color: {primaryColor}; --s-color: {secondaryColor}; --t-color: {tertiaryColor}; --txt-color: {textColor}; --bg-color: {backgroundColor}"
+	style="--p-color: {primaryColor}; --s-color: {secondaryColor}; --t-color: {tertiaryColor}; --p-color2: {primaryColor2}; --s-color2: {secondaryColor2}; --t-color2: {tertiaryColor2}"
 >
 	<NavBar />
 	<slot />
@@ -19,10 +20,11 @@
 <style>
 	:global(*) {
 		--primary-color: var(--p-color);
+		--primary-color2: var(--p-color2);
 		--secondary-color: var(--s-color);
+		--secondary-color2: var(--s-color2);
 		--tertiary-color: var(--t-color);
-		--text-color: var(--txt-color);
-		--background-color: var(--bg-color);
+		--tertiary-color2: var(--t-color2);
 	}
 	:global(body) {
 		margin: 0px;
@@ -35,9 +37,10 @@
 		left: 0;
 		right: 0;
 		overflow: hidden;
-		color: var(--text-color);
-		background-color: var(--background-color);
+		color: var(--secondary-color);
+		background-color: var(--primary-color);
 		display: flex;
 		flex-direction: column;
+		font-weight: 600;
 	}
 </style>

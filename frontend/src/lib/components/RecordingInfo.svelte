@@ -4,6 +4,7 @@
 	export let model: string;
 	export let video: string;
 	export let selected = false;
+	export let durationInSeconds = 0;
 	export let onClick: ((video: string) => void) | undefined = undefined;
 	export let onDelete: ((video: string) => void) | undefined = undefined;
 	export let onRename: ((video: string, newName: string) => void) | undefined = undefined;
@@ -14,7 +15,7 @@
 	let hovered = false;
 </script>
 
-<div class="container" class:selected>
+<div class="container" class:selected id={video}>
 	<div
 		class="titleBar"
 		on:mouseenter={() => (hovered = true)}
@@ -56,6 +57,7 @@
 		</button>
 	</div>
 	<button on:click={() => onClick && onClick(video)}>
+		<div class="duration">{new Date(durationInSeconds * 1000).toISOString().substring(11, 19)}</div>
 		<img src={`/api/model/${model}/thumbnail.png?video=${video}`} alt="" />
 	</button>
 </div>
@@ -63,9 +65,11 @@
 <style>
 	.container {
 		margin: 4px;
-		background-color: var(--primary-color);
+		background-color: var(--secondary-color);
 		border-radius: 20px;
 		padding: 5px;
+		color: var(--tertiary-color);
+		box-shadow: 0 0 10px var(--secondary-color2);
 	}
 	img {
 		width: auto;
@@ -73,6 +77,12 @@
 		border-radius: 20px;
 		display: block;
 		width: 100%;
+	}
+	.duration {
+		position: absolute;
+		margin-left: 10px;
+		margin-top: 3px;
+		color: var(--tertiary-color);
 	}
 	.titleBar {
 		display: flex;
@@ -92,13 +102,13 @@
 		text-align: start;
 	}
 	.icon {
-		color: var(--text-color);
+		color: var(--tertiary-color);
 		width: 27px;
 		margin-top: 3px;
 		margin-right: 2px;
 	}
 	.icon:hover {
-		color: var(--tertiary-color);
+		color: var(--tertiary-color2);
 	}
 	button {
 		display: block;
@@ -108,6 +118,7 @@
 		font: inherit;
 		cursor: pointer;
 		outline: inherit;
+		position: relative;
 	}
 	@media (min-width: 640px) {
 		.container {
@@ -115,7 +126,7 @@
 		}
 	}
 	.selected {
-		color: var(--tertiary-color);
+		color: var(--tertiary-color2);
 	}
 	input {
 		background: transparent;

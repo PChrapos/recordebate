@@ -13,7 +13,7 @@
 
 	onDestroy(() => ($navbarElement = undefined));
 
-	let recordings: string[] = [];
+	let recordings: { name: string; duration: number }[] = [];
 
 	onMount(async () => {
 		const res = await fetch(`/api/model/${$page.params.model}/videos`);
@@ -30,7 +30,7 @@
 		});
 		if (!res.ok) return;
 		if (selectedVideo == video) selectedVideo = undefined;
-		recordings = recordings.filter((recording) => recording != video);
+		recordings = recordings.filter((recording) => recording.name != video);
 	};
 	const renameVideo = async (video: string, newName: string) => {
 		const res = await fetch(`/api/model/${$page.params.model}/videos`, {
@@ -42,7 +42,12 @@
 		});
 		if (!res.ok) return;
 		if (selectedVideo == video) selectedVideo = newName;
-		recordings = recordings.map((recording) => (recording == video ? newName : recording));
+		recordings = recordings.map((recording) => {
+			return {
+				...recording,
+				name: recording.name == video ? newName : recording.name
+			};
+		});
 	};
 </script>
 
@@ -62,9 +67,17 @@
 		{#each recordings as recording}
 			<RecordingInfo
 				model={$page.params.model}
-				video={recording}
-				selected={selectedVideo == recording}
-				onClick={(video) => (selectedVideo = selectedVideo == video ? undefined : video)}
+				video={recording.name}
+				durationInSeconds={recording.duration}
+				selected={selectedVideo == recording.name}
+				onClick={(video) => {
+					if (!selectedVideo)
+						setTimeout(
+							() => document.getElementById(recording.name)?.scrollIntoView({ behavior: 'smooth' }),
+							10
+						);
+					selectedVideo = selectedVideo == video ? undefined : video;
+				}}
 				onDelete={deleteVideo}
 				onRename={renameVideo}
 			/>
@@ -97,7 +110,6 @@
 			display: flex;
 			flex-wrap: wrap;
 			flex-direction: row;
-			justify-content: center;
 			align-items: flex-start;
 			align-content: flex-start;
 		}

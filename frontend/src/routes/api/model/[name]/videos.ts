@@ -1,4 +1,4 @@
-import { deleteVideo, getRecordedModels, getVideos, renameVideo } from "$lib/models";
+import { deleteVideo, getRecordedModels, getVideoDuration, getVideos, renameVideo } from "$lib/models";
 import type { RequestHandler } from "@sveltejs/kit";
 
 export const get: RequestHandler<{ name: string }> = async ({ params }) => {
@@ -6,9 +6,16 @@ export const get: RequestHandler<{ name: string }> = async ({ params }) => {
     if (!model || !getRecordedModels().includes(model)) return {
         status: 400
     }
+    const videos = getVideos(model)
+    const durations = await Promise.all(videos.map(video => getVideoDuration(model, video)))
     return {
         body: {
-            videos: getVideos(model)
+            videos: videos.map((video, i) => {
+                return {
+                    name: video,
+                    duration: durations[i]
+                }
+            })
         }
     }
 }

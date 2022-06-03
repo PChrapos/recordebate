@@ -19,7 +19,7 @@
 <style>
 	a {
 		text-decoration: none;
-		color: var(--text-color);
+		color: var(--tertiary-color);
 	}
 	div {
 		display: flex;
@@ -32,7 +32,7 @@
 		filter: brightness(65%);
 	}
 	.selected {
-		color: var(--tertiary-color);
+		color: var(--tertiary-color2);
 	}
 	div div {
 		width: 30px;
@@ -40,7 +40,6 @@
 	}
 	div span {
 		display: none;
-		/* display: inline; */
 	}
 	@media (min-width: 640px) {
 		div span {
