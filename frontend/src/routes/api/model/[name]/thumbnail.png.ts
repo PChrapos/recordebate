@@ -8,7 +8,7 @@ export const get: RequestHandler<{ name: string }> = async ({ params, url }) => 
     if (!model) return {
         status: 400
     }
-    const images = getThumbnails(model)
+    const images = await getThumbnails(model)
     const video = url.searchParams.get("video")
     const image = images.find(image => {
         return image.substring(0, image.length - 4) == video?.replace('.mp4', '')
@@ -24,7 +24,8 @@ export const get: RequestHandler<{ name: string }> = async ({ params, url }) => 
 
     return {
         headers: {
-            "Content-type": 'image/png'
+            'Content-type': 'image/png',
+            'Cache-Control': 'public, max-age=36000'
         },
         body: Uint8Array.from(data)
     }

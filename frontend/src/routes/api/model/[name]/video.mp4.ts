@@ -9,7 +9,7 @@ export const get = async ({ request, params, url }: RequestEvent) => {
     const model = params.name
     const video = url.searchParams.get("video")
     const videos = readdirSync(path.join('../data', model)).filter(file => file.endsWith(".mp4"))
-    if (!model || !getRecordedModels().includes(model) || !video || !videos.includes(video)) return {
+    if (!model || !(await getRecordedModels()).includes(model) || !video || !videos.includes(video)) return {
         status: 400
     }
     const videoFile = path.join('../data', model, video)
