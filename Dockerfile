@@ -14,6 +14,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install ffmpeg redis-server -y
 COPY --from=frontend_builder /app/build /app
 COPY --from=frontend_builder /app/package.json /app
+RUN npm install
 COPY --from=backend_builder /app/target/release/backend /app/backend
 COPY start.sh .
 CMD ["bash", "start.sh"]
