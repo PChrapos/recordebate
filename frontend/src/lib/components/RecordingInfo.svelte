@@ -58,7 +58,12 @@
 	</div>
 	<button on:click={() => onClick && onClick(video)}>
 		<div class="duration">{new Date(durationInSeconds * 1000).toISOString().substring(11, 19)}</div>
-		<img src={`/api/model/${model}/thumbnail.png?video=${video}`} alt="" />
+		<img
+			src={`/api/model/${model}/thumbnail.png?video=${video}&size=480x303`}
+			alt=""
+			width="480"
+			height="303"
+		/>
 	</button>
 </div>
 

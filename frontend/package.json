@@ -16,6 +16,7 @@
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/adapter-node": "^1.0.0-next.73",
     "@sveltejs/kit": "next",
+    "@types/sharp": "^0.30.3",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "eslint": "^8.12.0",
@@ -33,6 +34,7 @@
   "type": "module",
   "dependencies": {
     "get-video-duration": "^4.1.0",
-    "ioredis": "^5.0.6"
+    "ioredis": "^5.0.6",
+    "sharp": "^0.30.6"
   }
 }

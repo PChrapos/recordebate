@@ -1,15 +1,15 @@
-import { getThumbnails } from "$lib/models";
+import { getThumbnailData, getThumbnails } from "$lib/models";
 import type { RequestHandler } from "@sveltejs/kit";
-import { readFileSync } from 'fs';
-import path from 'path';
 
 export const get: RequestHandler<{ name: string }> = async ({ params, url }) => {
     const model = params.name
     if (!model) return {
         status: 400
     }
+
     const images = await getThumbnails(model)
-    const video = url.searchParams.get("video")
+    const video = url.searchParams.get('video')
+    const sizeParam = url.searchParams.get('size')
     const image = images.find(image => {
         return image.substring(0, image.length - 4) == video?.replace('.mp4', '')
     }) ?? images.at(-1)
@@ -20,7 +20,8 @@ export const get: RequestHandler<{ name: string }> = async ({ params, url }) => 
             headers: { Location: `https://roomimg.stream.highwebmedia.com/riw/${model}.jpg` }
         }
     }
-    const data = readFileSync(path.join('../data', model, image));
+    const size = sizeParam ? { width: Number.parseInt(sizeParam.split('x')[0]), height: Number.parseInt(sizeParam.split('x')[1]) } : undefined
+    const data = await getThumbnailData(model, image, size)
 
     return {
         headers: {

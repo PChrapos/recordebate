@@ -2,6 +2,8 @@ import { existsSync, lstatSync, readdirSync, renameSync, unlinkSync } from 'fs'
 import { getVideoDurationInSeconds } from 'get-video-duration'
 import path from 'path'
 import { redisClient } from './redis'
+import { readFileSync } from 'fs';
+import sharp from 'sharp'
 
 const dataFolder = '../data'
 export const getRecordedModels = async () => {
@@ -9,7 +11,7 @@ export const getRecordedModels = async () => {
     if (cacheModels) return JSON.parse(cacheModels) as string[]
     if (!existsSync(dataFolder)) return []
     const models = readdirSync(dataFolder).filter(model => lstatSync(path.join(dataFolder, model)).isDirectory())
-    await redisClient.set('recordedModels', JSON.stringify(models))
+    await redisClient.set('recordedModels', JSON.stringify(models), 'EX', 300)
     return models
 }
 
@@ -19,7 +21,7 @@ export const getVideos = async (model: string) => {
     if (cache) return JSON.parse(cache) as string[]
     if (!(await getRecordedModels()).includes(model)) return []
     const videos = readdirSync(path.join(dataFolder, model)).filter(video => lstatSync(path.join(dataFolder, model, video)).isFile() && video.endsWith('.mp4') && !video.endsWith('.tmp.mp4'))
-    await redisClient.set(qualifiedName, JSON.stringify(videos))
+    await redisClient.set(qualifiedName, JSON.stringify(videos), 'EX', 300)
     return videos
 }
 
@@ -56,7 +58,7 @@ export const getThumbnails = async (model: string) => {
     if (cache) return JSON.parse(cache) as string[]
     if (!(await getRecordedModels()).includes(model)) return []
     const thumbnails = readdirSync(path.join(dataFolder, model)).filter(video => lstatSync(path.join(dataFolder, model, video)).isFile() && video.endsWith('.png'))
-    redisClient.set(qualifiedName, JSON.stringify(thumbnails))
+    redisClient.set(qualifiedName, JSON.stringify(thumbnails), 'EX', 300)
     return thumbnails
 }
 
@@ -67,4 +69,15 @@ export const getVideoDuration = async (model: string, video: string) => {
     const duration = await getVideoDurationInSeconds(path.join(dataFolder, model, video))
     redisClient.set(qualifiedName, duration)
     return duration
+}
+
+export const getThumbnailData = async (model: string, image: string, size: { width: number, height: number } | undefined = undefined) => {
+    if (!size) return readFileSync(path.join(dataFolder, model, image));
+    const qualifiedName = `thumbnailData.${model}.${image}.${size.width}x${size.height}`
+    const cache = await redisClient.getBuffer(qualifiedName)
+    if (cache) return cache
+    const data = readFileSync(path.join(dataFolder, model, image));
+    const resizedImage = await sharp(data).resize(size.width, size.height).toBuffer()
+    await redisClient.set(qualifiedName, resizedImage, 'EX', 3600)
+    return resizedImage
 }

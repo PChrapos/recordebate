@@ -20,7 +20,7 @@
 			isOnline = false;
 		}
 		if (!isOnline) {
-			modelImage = `/api/model/${model}/thumbnail.png`;
+			modelImage = `/api/model/${model}/thumbnail.png?size=480x303`;
 			setTimeout(refresh, 300000);
 		} else {
 			setTimeout(refresh, 60000);
@@ -44,7 +44,7 @@
 		</button>
 	</div>
 	<a href={`/recordings/${model}`}>
-		<img src={modelImage} alt={model} />
+		<img src={modelImage} alt={model} width="480" height="303" />
 	</a>
 </div>
 
